@@ -53,6 +53,11 @@ h2 {
   text-transform: uppercase;
 }
 
+html, body {
+  height: 100%;
+  width: 100%;
+}
+
 .hide { display: none; }
 .inline { display: inline-block; }
 .block { display: block; }
