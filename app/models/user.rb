@@ -25,7 +25,14 @@ class User < ActiveRecord::Base
 
   def likes
     graph = Koala::Facebook::API.new(self.fbtoken)
-    likes = graph.get_connections("me", "likes")
+    likes = nil
+    begin
+      likes = graph.get_connections("me", "likes")
+    rescue Exception => e
+      logger.debug :text => e
+      logger.debug :text => "****   Couldn't get likes!!"
+    end
+    likes
     # Also get interests from database and push it onto the array
     # likes += self.interests
   end

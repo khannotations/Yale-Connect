@@ -45,7 +45,7 @@
   </select>
 
 %h3 Your interests
--if @user && @user.fbtoken
+-if @user && @user.likes
   - @user.likes.each do |like|
     %p #{like["name"]} => #{like["category"]}
 -else 
