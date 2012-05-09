@@ -41,7 +41,7 @@
         xfbml      : true  // parse XFBML
       });
 
-      FB.getLoginStatus(function(response) {
+      FB.Event.subscribe('auth.statusChange', function(response) {
         if(response.status === "connected") {
           console.log("cono")
           var o = response.authResponse;
@@ -60,18 +60,6 @@
             keyboard: false,
             backdrop: "static"
           }).modal("show")
-        }
-      })
-
-      FB.Event.subscribe('auth.statusChange', function(response) {
-        console.log("response")
-        if(response.status === "connected") {
-          $.post("/facebook", {
-            fbtoken: response.authResponse.accessToken
-          });
-        }
-        else {
-          $("#fbmodal").modal("show")
         }
       })
     };
