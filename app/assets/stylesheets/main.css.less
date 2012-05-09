@@ -1,12 +1,16 @@
 @import "base.less";
 
+@width: 960px;
 body {
   .rad-gradient(#CCC, #FFF);
   font-family: "Mako";
+  font-family: "Lato";
+  font-family: "Open Sans";
+  min-width: @width;
 }
 
 .contain {
-  width: 960px;
+  width: @width;
   margin: 0px auto;
   padding-top: 60px;
 }
@@ -17,4 +21,12 @@ p {
 
 b {
   font-family: "Lato";
+}
+
+#fblogin {
+  text-align: center;
+  margin: 10px auto;
+  width: 300px;
+  font-size: 80%;
+  line-height: 80%;
 }

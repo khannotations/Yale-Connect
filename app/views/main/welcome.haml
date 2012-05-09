@@ -1,0 +1,7 @@
+%h1 You are not logged in.
+- if(flash[:success])
+  .alert.alert-success.fade.in
+    %a.close{"data-dismiss" => "alert"} &times;
+    %span#success= flash[:success]
+%a{:href => "/auth"}
+  .btn CAS Login.

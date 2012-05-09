@@ -1,6 +1,65 @@
-.contain
-  %h1 This finna be siicccck
-  %b By Rafi and Akshay
-  %a{:href => "https://github.com/rafi-khan/Yale-Connect", :target => "_blank"} Check it out brah.
-  %p It takes a while to load obv.
-  %p I 4m 5o c0ol 
+-if @user
+
+  %h3 Hey #{@user.fname}!
+  %b #{@user.email} #{@user.college} #{@user.year} #{@user.major}
+  %img{:src => @user.picture}
+
+%a{:href => "/logout"} Logout
+
+- if(flash[:error])
+  .alert.alert-error.fade.in
+    %a.close{"data-dismiss" => "alert"} &times;
+    %span#error= flash[:error]
+- else
+  .alert.alert-error.fade.in.hide
+    %a.close{"data-dismiss" => "alert"} &times;
+    %span#error
+- if(flash[:success])
+  .alert.alert-success.fade.in
+    %a.close{"data-dismiss" => "alert"} &times;
+    %span#success= flash[:success]
+- else
+  .alert.alert-success.fade.in.hide
+    %a.close{"data-dismiss" => "alert"} &times;
+    %span#success
+%p
+  FB token
+  %span#fbtoken no token
+%p
+  FB ID
+  %span#fbid no facebook id
+%p
+  seconds left
+  %span#fbtime
+
+%h3 Search by interest
+:plain
+  <select data-placeholder="Choose an interest" style="width:350px;" multiple class="chzn-select"">
+
+    <option></option>
+    <option value="FOOT">FOOT</option>
+    <option value="Club Soccer">Club Soccer</option>
+    <option value="Magic">Magic</option>
+    <option value="Weed">Weed</option>
+    <option value="Mamouns">Mamouns</option>
+  </select>
+
+%h3 Your interests
+-if @user && @user.fbtoken
+  - @user.likes.each do |like|
+    %p #{like["name"]} => #{like["category"]}
+-else 
+  %p Log into facebook to see interests
+
+
+#fbmodal.modal.hide.fade.in
+  .modal-header
+    %h2 Just one more step!
+  .modal-body
+    Logging in with Facebook will make your Yale Connect experience exponentially better!
+    #fblogin
+      :plain 
+        <fb:login-button show-faces="false" max-rows="1" scope="user_about_me, user_interests, user_hometown, user_likes" registration-uri="http://localhost.com:3000" size="large" onlogin="window.location.href='/';">Yay! I love exponents!</fb:login-button>
+      %br
+      %br
+      %a{:href => "#", "data-dismiss"=>"modal"} Skip for now =>
