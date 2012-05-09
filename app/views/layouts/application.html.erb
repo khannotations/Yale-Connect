@@ -42,7 +42,10 @@
       });
 
       FB.Event.subscribe('auth.statusChange', function(response) {
+        console.log("yo")
         if(response.status === "connected") {
+          console.log("cono")
+
           var o = response.authResponse;
           $.post("/facebook", {
             fbtoken: o.accessToken,
@@ -54,6 +57,8 @@
           $("#fbtime").html(o.expiresIn)
         }
         else {
+        console.log("nocoo")
+
           $("#fbmodal").modal({
             keyboard: false,
             backdrop: "static"
