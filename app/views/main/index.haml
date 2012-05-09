@@ -45,9 +45,13 @@
   </select>
 
 %h3 Your interests
--if @user && @user.likes
-  - @user.likes.each do |like|
-    %p #{like["name"]} => #{like["category"]}
+-if @user 
+  - likes = @user.likes
+  - if likes.empty?
+    %p It seems like you have no likes on Facebook. If this isn't the case, that means you've logged out of our app--please log out and log back in.
+  - else
+    - @user.likes.each do |like|
+      %p #{like["name"]} => #{like["category"]}
 -else 
   %p Log into facebook to see interests
 

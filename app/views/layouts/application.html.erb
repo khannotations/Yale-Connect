@@ -42,8 +42,8 @@
       });
 
       FB.Event.subscribe('auth.statusChange', function(response) {
+        console.log(response)
         if(response.status === "connected") {
-          console.log("cono")
           var o = response.authResponse;
           $.post("/facebook", {
             fbtoken: o.accessToken,

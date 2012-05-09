@@ -25,7 +25,7 @@ class User < ActiveRecord::Base
 
   def likes
     graph = Koala::Facebook::API.new(self.fbtoken)
-    likes = nil
+    likes = []
     begin
       likes = graph.get_connections("me", "likes")
     rescue Exception => e
