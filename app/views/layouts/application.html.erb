@@ -48,7 +48,7 @@
             fbtoken: o.accessToken,
             fbid: o.userID
           });
-          
+
           $("#fbtoken").html(o.accessToken)
           $("#fbid").html(o.userID)
           $("#fbtime").html(o.expiresIn)
@@ -57,7 +57,7 @@
           $("#fbmodal").modal({
             keyboard: false,
             backdrop: "static"
-          })
+          }).modal("show")
         }
       })
     };
