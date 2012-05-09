@@ -51,6 +51,10 @@
 -else 
   %p Log into facebook to see interests
 
+- if ENV["RAILS_ENV"] == "development"
+  - url = "http://localhost.com:3000"
+- else
+  - url = "http://yaleconnect.heroku.com"
 
 #fbmodal.modal.hide.fade.in
   .modal-header
@@ -58,8 +62,10 @@
   .modal-body
     Logging in with Facebook will make your Yale Connect experience exponentially better!
     #fblogin
-      :plain 
-        <fb:login-button show-faces="false" max-rows="1" scope="user_about_me, user_interests, user_hometown, user_likes" registration-uri="http://localhost.com:3000" size="large" onlogin="window.location.href='/';">Yay! I love exponents!</fb:login-button>
+      :erb 
+        <fb:login-button show-faces="false" max-rows="1" scope="user_about_me, user_interests, user_hometown, user_likes" registration-uri="<%= url %>" size="large" onlogin="window.location.href='/';">
+          Yay! I love exponents!
+        </fb:login-button>
       %br
       %br
       %a{:href => "#", "data-dismiss"=>"modal"} Skip for now =>
