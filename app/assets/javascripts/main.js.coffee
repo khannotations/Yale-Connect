@@ -11,6 +11,10 @@ $(document).ready ->
       hide: 200
     }
   })
+  $("#cas").tooltip({
+    placement: "right",
+    title: "CAS login"
+  })
   $("body").ajaxError( () ->
     $("#error").html("An error occurred -- try refreshing the page. If the problem persists, please contact the webmaster or try again later :(").parents(".alert").slideDown("fast")
   ).click( () ->

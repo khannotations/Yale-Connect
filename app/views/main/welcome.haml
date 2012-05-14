@@ -1,5 +1,8 @@
-.box
-  %h1 Welcome to Yale's new campus!
+- content_for :fb do
+  %noscript
+    %h1 Please enable JavaScript!
+.box.center
+  %h1 Welcome to Yale's New Campus!
   - if(flash[:success])
     .alert.alert-success.fade.in
       %a.close{"data-dismiss" => "alert"} &times;
@@ -7,4 +10,4 @@
   %p Here, you'll meet and interact with your classmates like you've never done before. 
   %br
   %a{:href => "/auth"}
-    .btn.btn-primary Let's go!
+    #cas.btn.btn-large.btn-primary{:style => "padding: 10px 50px;"} Let's go!

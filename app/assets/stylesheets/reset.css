@@ -81,6 +81,7 @@ html, body {
 .block { display: block; }
 .pull-left{ float: left; }
 .pull-right{ float: right; }
+.center { text-align: center;}
 .container {
   width: 980px;
   margin: 0 auto;
