@@ -21,19 +21,25 @@ $(document).ready ->
     $(".alert").slideUp("fast")
   )
 
-  $("#major").keydown( (e) ->
-    if(e.which == 13) 
-      $(this).blur()
-      e.preventDefault()
-  ).blur( () -> 
-    major_post($(this).html())
-  )
+  old_major = ""
+  $("#major").focus(() ->
+      old_major = $("#major").html()
+    ).keydown( (e) ->
+      if(e.which == 13) 
+        $(this).blur()
+        e.preventDefault()
+    ).blur( () -> 
+      new_major = $.trim($(this).html().replace(/&nbsp;/g, ""))
+      if(old_major != new_major)
+        major_post(new_major)
+      else
+        $(this).html(new_major)
+    )
 
   true
 
 major_post = (text) ->
   $.post("/major", {major: text}, (data) ->
-    console.log(data)
     if(data.status == "fail")
       error(data.message)
       $("#major").html("Undecided")

@@ -7,22 +7,23 @@
         %img.user-pic{:src => @user.picture}
       .mid.pull-left
         %h3 Hey #{@user.fname}!
-        .small
+        %p
           #{@user.email} | #{@user.college} #{@user.year}&nbsp;| 
           %span#major{:contentEditable => true} #{@user.major}
-          %span.tiny (click to edit)
+          %span (click to edit)
       .right.pull-right
-        %img.block{:src => "/assets/yale.jpg", :width => "100px", :height => "30px"}
+        -#%img.block{:src => "/assets/yale.jpg", :width => "100px", :height => "30px"}
         .btn-group
+          -#.btn-group.inline
           %a.btn.btn-mini.dropdown-toggle{:href => "#", "data-toggle"=>"dropdown"} 
-            Settings
+            Help
             %span.caret
           %ul.dropdown-menu
             %li 
               %a{:href => "#"} Privacy
             %li
               %a{:href => "#"} Terms of Use
-        %a.btn.btn-danger.btn-mini{:href => "/logout"} Logout
+          %a.btn.btn-danger.btn-mini{:href => "/logout"} Logout
 
   - if(flash[:error])
     .alert.alert-error.fade.in
@@ -42,10 +43,7 @@
       %span#success
   %h3 The Meal Tag
   -# if active
-  %p 
-    Get paired with a random Yalie, and grab a meal with them!
-    %a.btn.btn-primary{:href => "/pair"} Go!
-
+  = render :partial => "users/unmatched"
   -# else
   = render :partial => "users/match", :locals => {:m => @user}
 
