@@ -9,6 +9,8 @@ class CreateUsers < ActiveRecord::Migration
       t.string :netid
       t.string :major, :default => "Undecided"
 
+      t.integer :points, :default => 0
+
       # From Facebook
       t.string :gender
       t.string :fbid

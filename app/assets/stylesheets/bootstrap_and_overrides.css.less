@@ -15,7 +15,45 @@
 // Font Awesome
 @import "fontawesome";
 
-.modal, .btn, .alert {
+h4 {
+  margin: 5px 0px 15px;
+}
+
+.modal, .btn, .alert, .dropdown-menu, .btn-group.open .dropdown-menu {
   .border-radius(0px);
+}
+
+input, button, select, textarea {
+  font-family: inherit;
+}
+
+.btn-group.open .dropdown-menu {
+  padding: 0px;
+  min-width: 100px;
+  a {
+    font-size: 100%;
+    line-height: 100%;
+    padding: 5px 15px;
+  }
+}
+
+.btn-group {
+  vertical-align: top;
+  display: inline-block;
+  margin: 0px;
+  .btn {
+    .border-radius(0px);
+    margin: 0px;
+    float: left;
+    &:first-child {
+    float: left;
+
+      .border-radius(0px);
+    }
+  } 
+}
+
+ul {
+  list-style:none;
 }
 

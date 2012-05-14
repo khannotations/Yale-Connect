@@ -2,7 +2,8 @@
 
 @width: 960px;
 body {
-  .rad-gradient(#CCC, #FFF);
+  background: url("/assets/back.jpg") no-repeat;
+  background-size: cover;
   font-family: "Mako";
   font-family: "Lato";
   font-family: "Open Sans";
@@ -19,8 +20,55 @@ p {
   font-family: "Open Sans";
 }
 
-b {
+b, h1, h2, h3, h4 {
   font-family: "Lato";
+}
+
+.box {
+  background-color: rgba(255,255,255, 0.7);
+  padding: 30px;
+  color: black;
+  h1 {
+    font-size: 200%;
+    margin-bottom: 20px;
+  }
+  h3 {
+    font-size: 180%;
+    margin: 0px;
+    margin-bottom: 10px;
+  }
+  p {
+    font-size: 120%;
+  }
+}
+@pic-height: 50px;
+.top {
+  height: @pic-height+20;
+  font-size: 0px;
+  .mid {
+    font-size: 16px;
+  }
+  .dropdown-menu {
+    font-size: 12px;
+  }
+  .right img {
+    height: 30px;
+    width: 115px;
+  }
+}
+
+.user-pic {
+  height: @pic-height;
+  border: 2pt white ridge;
+  
+  margin-right: 10px;
+  float: left;
+}
+
+label {
+  display: inline-block;
+  margin-right: 10px;
+  font-size: 15px;
 }
 
 #fblogin {
@@ -30,3 +78,4 @@ b {
   font-size: 80%;
   line-height: 80%;
 }
+

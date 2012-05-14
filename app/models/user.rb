@@ -8,8 +8,7 @@ class User < ActiveRecord::Base
 
   after_create :ldap
 
-  attr_accessible :netid, :fbtoken, :fbid
-
+  attr_accessible :netid, :fbtoken, :fbid, :major
 
   # store the graph as a class variable?
   # @@graph = Koala::Facebook::API.new

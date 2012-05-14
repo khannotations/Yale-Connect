@@ -46,11 +46,29 @@ table {
   border-spacing: 0;
 }
 
-h1 { font-size: 200%; }
+h1 { 
+  font-size: 200%;
+  line-height: 200%;
+}
 
 h2 {
   font-size: 180%;
+  line-height: 180%;
   text-transform: uppercase;
+}
+
+h3 {
+  font-size: 150%;
+  line-height: 150%;
+
+}
+
+h4 {
+  font-size: 120%;
+  line-height: 120%;
+
+  text-transform: uppercase;
+
 }
 
 html, body {
@@ -68,6 +86,7 @@ html, body {
   margin: 0 auto;
 }
 .tiny{ font-size: 50%;}
+.small{ font-size: 80%;}
 .big { font-size: 120%;}
 
 

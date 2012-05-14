@@ -5,6 +5,7 @@ class MainController < ApplicationController
     redirect_to "/welcome" and return if not session[:cas_user]
     begin
       @user = User.find(session[:user_id])
+      session[:user_id] = @user.id if not session[:user_id]
     rescue
       flash[:error] = "No user!"
     end
@@ -21,8 +22,9 @@ class MainController < ApplicationController
       u = User.find_by_netid(id)
       if not u # If first sign in, create user
         u = User.create(netid: id)
-        session[:user_id] = u.id
       end
+      session[:user_id] = u.id
+
     else
       flash[:error] = "Login failed!"
     end

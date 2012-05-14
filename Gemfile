@@ -17,6 +17,9 @@ gem 'rubycas-client'
 
 gem 'koala'
 
+# gem 'rmagick'
+gem 'carrierwave'
+
 group :development do
   gem 'sqlite3'
 end

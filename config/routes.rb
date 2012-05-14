@@ -3,6 +3,7 @@ Connect::Application.routes.draw do
   match "auth" => "main#auth"
   match "logout" => "main#logout"
   match "facebook" => "users#facebook", :via => [:post]
+  match "major" => "users#major"
 
   root :to => 'main#index'
 

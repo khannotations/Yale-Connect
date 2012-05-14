@@ -1,0 +1,15 @@
+.match
+  %h4 Your current match:
+  %img.user-pic{:src => m.picture}
+  %p 
+    #{@user.name}&nbsp;| 
+    %a{:href => "mailto:#{@user.email}"} #{m.email} 
+    | #{m.college} #{m.year}
+  = form_tag("/done", :multipart => true, )
+  -#%form{:action => "/done", :method => "post"}
+  = hidden_field_tag "partner", m.id
+  = label_tag 'file', "An image of your encounter: "
+  = file_field_tag "image", :accept => 'image/png,image/gif,image/jpeg, image/jpg'
+  = submit_tag "We're done!", :class => "btn btn-success btn-large"
+  -# %input{:type => "hidden", :name => "partner", :value => "partner_id"} 
+  -# %input.btn.btn-success{:type => "submit", :value => "We're done!"} 
