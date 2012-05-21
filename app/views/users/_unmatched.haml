@@ -1,7 +1,7 @@
 .match.um
-  %h4 Get one
+  %br
   %p Get to know a random Yalie! We'll find you a buddy according to the options below.
-  =# form_tag("/pair")
+  = form_tag("/pair")
   = check_box_tag "friends", "no", true
   = label_tag "friends", "Exclude Facebook friends"
   %br

@@ -14,7 +14,6 @@
       .right.pull-right
         -#%img.block{:src => "/assets/yale.jpg", :width => "100px", :height => "30px"}
         .btn-group
-          -#.btn-group.inline
           %a.btn.btn-mini.dropdown-toggle{:href => "#", "data-toggle"=>"dropdown"} 
             Help
             %span.caret
@@ -23,6 +22,7 @@
               %a{:href => "#"} Privacy
             %li
               %a{:href => "#"} Terms of Use
+          %a.btn.btn-mini.btn-inverse{:href => "#"} Go on hiatus&nbsp;
           %a.btn.btn-danger.btn-mini{:href => "/logout"} Logout
 
   - if(flash[:error])
@@ -45,8 +45,51 @@
   -# if active
   = render :partial => "users/unmatched"
   -# else
-  = render :partial => "users/match", :locals => {:m => @user}
+  =# render :partial => "users/match", :locals => {:m => @user}
 
+  #history
+    %h5 Your history
+    -# Table with all your meals and pictures
+    %table.table.table-condensed.table-striped
+      %thead
+        %tr
+          %td Name
+          %td Date
+          %td Picture
+      %tbody
+        -# @user.past_meals do |meal|
+        %tr
+          %td Someone
+          %td Sometime
+          %td
+            %img{:src => @user.picture, :alt => "No picture"}
+        %tr
+          %td Someone
+          %td Sometime
+          %td
+            %img{:src => @user.picture, :alt => "No picture"}
+
+    .rule
+  #leaderboard
+    %h5 Leaderboard
+    %table.table.table-condensed.table-striped
+      %thead
+        %tr
+          %td Name
+          %td College / Year
+          %td Points
+      %tbody
+        -# @user.past_meals do |meal|
+        %tr
+          %td Someone
+          %td PC 2015
+          %td 30
+        %tr
+          %td Someone
+          %td TD 2014
+          %td 30
+
+  -# Table with top 5, plus your rank
   %h3 Search by interest
   :plain
     <select data-placeholder="Choose an interest" style="width:350px;" multiple class="chzn-select"">

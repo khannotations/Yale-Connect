@@ -20,9 +20,9 @@ class MainController < ApplicationController
 
     if id # Check that user and session exists
       u = User.find_by_netid(id)
-      if not u # If first sign in, create user
-        u = User.create(netid: id)
-      end
+      # If first sign in, create user
+      u = User.create(netid: id) if not u 
+      
       session[:user_id] = u.id
 
     else

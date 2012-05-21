@@ -90,6 +90,12 @@ html, body {
 .small{ font-size: 80%;}
 .big { font-size: 120%;}
 
+.rule {
+  height: 0px;
+  border-top: 1pt dotted #333;
+  margin: 10px 0px;
+}
+
 
 
 
