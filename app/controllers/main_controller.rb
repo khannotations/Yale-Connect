@@ -1,11 +1,11 @@
 class MainController < ApplicationController
-  before_filter CASClient::Frameworks::Rails::Filter, :only => [:auth]
+  # before_filter CASClient::Frameworks::Rails::Filter, :only => [:auth]
 
   def index
-    redirect_to "/welcome" and return if not session[:cas_user]
+    # redirect_to "/welcome" and return if not session[:cas_user]
     begin
-      @user = User.find(session[:user_id])
-      session[:user_id] = @user.id if not session[:user_id]
+      session[:user_id] = 2
+      @user = User.find(session[:user_id]) if session[:user_id]
     rescue
       flash[:error] = "No user!"
     end
