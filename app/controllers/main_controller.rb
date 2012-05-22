@@ -4,8 +4,10 @@ class MainController < ApplicationController
   def index
     # redirect_to "/welcome" and return if not session[:cas_user]
     begin
-      session[:user_id] = 2
+
       @user = User.find(session[:user_id]) if session[:user_id]
+      @user = User.find_by_netid("fak23")
+      session[:user_id] = @user.id
     rescue
       flash[:error] = "No user!"
     end
