@@ -1,9 +1,23 @@
 class User
   include Mongoid::Document
-
   require 'net/ldap'
   require 'koala'
   require 'json'
+
+  field :fname
+  field :lname
+  field :email
+  field :college
+  field :year
+  field :netid
+  field :major, default: "Undecided"
+
+  field :points, type: Integer, default: 0
+
+  # From Facebook
+  field :gender
+  field :fbid
+  field :fbtoken
 
   # has_many :interests
 
@@ -37,12 +51,6 @@ class User
     # likes += self.interests
   end
 
-  def facebook params
-    if params[:fbtoken] && params[:fbid]
-      self.update_attributes(fbtoken: params[:fbtoken], fbid: params[:fbid])
-    end
-  end
-
   protected
 
   def ldap
@@ -58,10 +66,10 @@ class User
     rescue Exception => e
       logger.debug :text => e
       logger.debug :text => "*** ERROR with LDAP"
-      guessFromEmail
+      return false
     end
   
-    self.netid = ( p['uid'] ? p['uid'][0] : '' )
+    # self.netid = ( p['uid'] ? p['uid'][0] : '' )
     self.fname = ( p['knownAs'] ? p['knownAs'][0] : '' )
     if self.fname.blank?
       self.fname = ( p['givenname'] ? p['givenname'][0] : '' )

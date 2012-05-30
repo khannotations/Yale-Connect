@@ -2,14 +2,12 @@ class MainController < ApplicationController
   before_filter CASClient::Frameworks::Rails::Filter, :only => [:auth]
 
   def index
-    redirect_to "/welcome" and return if not session[:cas_user]
+    redirect_to "/welcome" and return if not (session[:cas_user] and session[:user_id])
     begin
-
-      @user = User.find(session[:user_id]) if session[:user_id]
-      @user = User.find_by_netid("fak23")
-      session[:user_id] = @user.id
-    rescue
-      flash[:error] = "No user!"
+      @user = User.find(session[:user_id])
+    rescue # Should never happen, in theory.
+      flash[:error] = "No such user!"
+      redirect_to "/welcome"
     end
 
   end
@@ -21,16 +19,17 @@ class MainController < ApplicationController
     id = session[:cas_user]
 
     if id # Check that user and session exists
-      u = User.find_by_netid(id)
+      u = User.where(netid: id).first
       # If first sign in, create user
       u = User.create(netid: id) if not u 
-      
+
       session[:user_id] = u.id
+      redirect_to :root
 
     else
       flash[:error] = "Login failed!"
+      redirect_to "/welcome"
     end
-    redirect_to :root
   end
 
   def logout

@@ -121,10 +121,18 @@
   .tiny 
     %p
       FB token
-      %span#fbtoken no token
+      %span#fbtoken
+        - if @user.fbtoken 
+          #{@user.fbtoken}
+        - else
+          no fb token
     %p
       FB ID
-      %span#fbid no facebook id
+      %span#fbid
+        - if @user.fbid 
+          #{@user.fbid }
+        - else
+          no fb id
     %p
       seconds left
       %span#fbtime

@@ -26,7 +26,7 @@ $(document).ready ->
       old_major = $("#major").html()
     ).keydown( (e) ->
       if(e.which == 13) 
-        $(this).blur()
+        $(this).blur() # blur, triggering the next handler
         e.preventDefault()
     ).blur( () -> 
       new_major = $.trim($(this).html().replace(/&nbsp;/g, ""))
@@ -38,6 +38,7 @@ $(document).ready ->
 
   true
 
+# Post the major
 major_post = (text) ->
   $.post("/major", {major: text}, (data) ->
     if(data.status == "fail")
@@ -48,6 +49,7 @@ major_post = (text) ->
   )
   true
 
+# Functions for dealing wtih success and failures
 success = (msg) ->
   $("#success").html(msg).parents(".alert").slideDown("fast")
   true
