@@ -1,4 +1,5 @@
-class User < ActiveRecord::Base
+class User
+  include Mongoid::Document
 
   require 'net/ldap'
   require 'koala'
