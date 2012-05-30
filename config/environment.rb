@@ -4,6 +4,12 @@ require File.expand_path('../application', __FILE__)
 ENV["fbsecret"] = "71d91a73b5e2e58dcf17934a6dcf787a"
 ENV["fbkey"] = "390508047659869"
 
+ENV['MONGOID_HOST'] = "ds033097.mongolab.com"
+ENV['MONGOID_PORT'] = "33097"
+ENV['MONGOID_USERNAME'] = "admin"
+ENV['MONGOID_PASSWORD'] = "admin"
+ENV['MONGOID_DATABASE'] = "campus"
+
 
 # Initialize the rails application
 Connect::Application.initialize!
