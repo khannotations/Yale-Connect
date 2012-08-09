@@ -1,6 +1,10 @@
 $(document).ready ->
+
+  # Make chzn boxes.
   $(".chzn-select").chosen()
   # $("#fbmodal").modal("show")
+
+  # Facebook modal for the first time
   $("#fbtooltip").popover({
     animation: true,
     placement: "right",
@@ -11,16 +15,14 @@ $(document).ready ->
       hide: 200
     }
   })
+
+  # Stupid tooltip test on CAS login button on splash page
   $("#cas").tooltip({
     placement: "right",
     title: "CAS login"
   })
-  $("body").ajaxError( () ->
-    $("#error").html("An error occurred -- try refreshing the page. If the problem persists, please contact the webmaster or try again later :(").parents(".alert").slideDown("fast")
-  ).click( () ->
-    $(".alert").slideUp("fast")
-  )
-
+  
+  # Function for inline changing the major.
   old_major = ""
   $("#major").focus(() ->
       old_major = $("#major").html()
@@ -48,12 +50,22 @@ major_post = (text) ->
       success(data.message)
   )
   true
-
 # Functions for dealing wtih success and failures
+# Any ajax error in the body is handled by displaying the following alert.
+# Also, any .alert is hidden on body click
+$("body").ajaxError( () ->
+    $("#error").html("An error occurred -- try refreshing the page. If the problem persists, please contact the webmaster or try again later :(").parents(".alert").slideDown("fast")
+  ).click( () ->
+    $(".alert").slideUp("fast")
+  )
+
+# Display success message
 success = (msg) ->
   $("#success").html(msg).parents(".alert").slideDown("fast")
   true
-
+# Display error message
 error = (msg) -> 
   $("#error").html(msg).parents(".alert").slideDown("fast")
   true
+
+

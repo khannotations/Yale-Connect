@@ -35,7 +35,7 @@ class MainController < ApplicationController
   def logout
     session[:cas_user] = nil
     flash[:success] = "Logged out!"
-    redirect_to "/welcome"
+    #redirect_to "/welcome"
     CASClient::Frameworks::Rails::Filter.logout(self)
   end
 end

@@ -5,7 +5,7 @@ development:
   password: <%= ENV['MONGOID_PASSWORD'] %>
   database: <%= ENV['MONGOID_DATABASE'] %>
   # host: localhost
-  # database: connect_development
+  #   database: connect_development
 
 test:
   host: localhost
