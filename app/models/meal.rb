@@ -10,6 +10,6 @@ class Meal
   field :feedback, :type => String
 
   attr_accessible :image
-  mount_uploader :image, MealTagUploader
+  # mount_uploader :image, MealTagUploader
 
 end
