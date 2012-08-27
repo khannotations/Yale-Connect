@@ -19,7 +19,7 @@ class User
   field :fbid
   field :fbtoken
 
-  # has_many :interests
+  has_many :meals
 
   after_create :ldap
 

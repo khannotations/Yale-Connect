@@ -11,14 +11,14 @@ gem 'therubyracer'
 gem 'json'
 
 gem 'httpclient'
-
 gem 'net-ldap'
 gem 'rubycas-client'
 
 gem 'koala'
 
-# gem 'rmagick'
+gem 'rmagick'
 gem 'carrierwave'
+gem 'carrierwave-mongoid'
 
 gem 'haml'
 
