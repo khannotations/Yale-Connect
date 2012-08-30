@@ -1,0 +1,32 @@
+Runs each day until a certain cap (95)
+
+For each unmatched user not on hiatus (array)
+    Check that theyre not really matched yet
+    Query all other unmatched users not on hiatus that match the year filter
+    Take a random user
+    Match these two, add a meal to the database (mark it as unfinished)
+    Email the ppl telling them that they have a match
+
+
+# include user/meal
+# require mongo/sendgrid
+
+# Mongo connection stuff
+
+candidates = User.where({"matched" => false, "hiatus" => false}).to_a  # match preferences
+
+candidates.each do |user|
+    candidates.each do |potential|
+        continue if user == potential
+        continue unless user.preferences.year == potential.year or user.preferences.year.nil?
+        continue unless potential.preferences.year == user.year or potential.preferences.year.nil?
+        match(user, potential)
+        candidates.remove(user)
+        candidates.remove(potential)
+    end
+end
+
+def match user1, user2
+    Meal.create({"user_1" => user1, "user_2" => user2, "done" => false})
+    Sendgrid.send
+end
