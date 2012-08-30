@@ -16,6 +16,7 @@ gem 'rubycas-client'
 
 gem 'koala'
 
+# gem 'rmagick'
 gem 'carrierwave'
 gem 'carrierwave-mongoid'
 
