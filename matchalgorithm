@@ -1,19 +1,10 @@
-Runs each day until a certain cap (95)
+require 'mongo'
+require 'mongoid'
 
-For each unmatched user not on hiatus (array)
-    Check that theyre not really matched yet
-    Query all other unmatched users not on hiatus that match the year filter
-    Take a random user
-    Match these two, add a meal to the database (mark it as unfinished)
-    Email the ppl telling them that they have a match
+conn = Mongo::Connection.from_uri("mongodb://admin:admin@ds033097.mongolab.com:33097/campus")
+db = conn["campus"];
 
-
-# include user/meal
-# require mongo/sendgrid
-
-# Mongo connection stuff
-
-candidates = User.where({"matched" => false, "hiatus" => false}).to_a  # match preferences
+candidates = db.users.where({"matched" => false, "hiatus" => false}).to_a  # match preferences
 
 candidates.each do |user|
     candidates.each do |potential|
