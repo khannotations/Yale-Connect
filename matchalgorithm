@@ -1,0 +1,23 @@
+require 'mongo'
+require 'mongoid'
+
+conn = Mongo::Connection.from_uri("mongodb://admin:admin@ds033097.mongolab.com:33097/campus")
+db = conn["campus"];
+
+candidates = db.users.where({"matched" => false, "hiatus" => false}).to_a  # match preferences
+
+candidates.each do |user|
+    candidates.each do |potential|
+        continue if user == potential
+        continue unless user.preferences.year == potential.year or user.preferences.year.nil?
+        continue unless potential.preferences.year == user.year or potential.preferences.year.nil?
+        match(user, potential)
+        candidates.remove(user)
+        candidates.remove(potential)
+    end
+end
+
+def match user1, user2
+    Meal.create({"user_1" => user1, "user_2" => user2, "done" => false})
+    Sendgrid.send
+end

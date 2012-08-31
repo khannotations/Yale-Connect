@@ -4,7 +4,9 @@ class Meal
   belongs_to :user, :inverse_of => :meals
   # belongs_to :user_2, class_name: "User"
   # field :user_2, :type => BSON:ObjectID
-  
+ 
+  field :done, :type => Boolean
+
   field :date, :type => Date
   field :image
   field :feedback
