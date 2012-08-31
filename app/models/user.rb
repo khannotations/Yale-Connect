@@ -12,6 +12,7 @@ class User
   field :netid
   field :major, default: "Undecided"
 
+  field :matched, type: Boolean, default: false
   field :points, type: Integer, default: 0
 
   # From Facebook

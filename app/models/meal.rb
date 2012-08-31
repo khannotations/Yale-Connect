@@ -1,15 +1,17 @@
 class Meal
   include Mongoid::Document
 
-  has_one :user_1, class_name: "User"
-  has_one :user_2, class_name: "User"
+  belongs_to :user, :inverse_of => :meals
+  # belongs_to :user_2, class_name: "User"
   # field :user_2, :type => BSON:ObjectID
   
   field :date, :type => Date
-  field :image, :type => String
-  field :feedback, :type => String
+  field :image
+  field :feedback
+  field :done, :type => Boolean, :default => false
 
   attr_accessible :image
   # mount_uploader :image, MealTagUploader
 
+  # validates_presence_of :user
 end
