@@ -9,7 +9,7 @@ $(document).ready ->
     animation: true,
     placement: "right",
     title: "Why the Book rocks",
-    content: "With Facebook, you can control whether you meet friends, strangers, or both. It gives you a better handle on your privacy, more options, and helps ensure you make lasting connections. ",
+    content: "With Facebook, you can control whether you meet friends, strangers, or both. It gives you a better handle on your privacy, more options, and helps ensure you make lasting connections.",
     delay: {
       show: 0,
       hide: 200
@@ -21,6 +21,15 @@ $(document).ready ->
     placement: "right",
     title: "CAS login"
   })
+
+  # Any ajax error in the body is handled the same way
+  $("body").ajaxError( () ->
+    $("#error").html("An error occurred -- try refreshing the page. If the problem persists, please contact the webmaster or try again later :(").parents(".alert").slideDown("fast")
+  )
+  # On click, hide alerts
+  $("body").click( () ->
+    $(".alert").slideUp("fast")
+  )
   
   # Function for inline changing the major.
   old_major = ""
@@ -53,11 +62,6 @@ major_post = (text) ->
 # Functions for dealing wtih success and failures
 # Any ajax error in the body is handled by displaying the following alert.
 # Also, any .alert is hidden on body click
-$("body").ajaxError( () ->
-    $("#error").html("An error occurred -- try refreshing the page. If the problem persists, please contact the webmaster or try again later :(").parents(".alert").slideDown("fast")
-  ).click( () ->
-    $(".alert").slideUp("fast")
-  )
 
 # Display success message
 success = (msg) ->

@@ -20,11 +20,11 @@ class User
   field :fbid
   field :fbtoken
 
-  has_many :meals
+  has_many :meals, autosave: true
 
   after_create :ldap
 
-  attr_accessible :netid, :fbtoken, :fbid, :major
+  attr_accessible :netid, :fbtoken, :fbid, :major, :matched, :points
 
   # store the graph as a class variable?
   # @@graph = Koala::Facebook::API.new
