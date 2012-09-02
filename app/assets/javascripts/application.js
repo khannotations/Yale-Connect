@@ -15,3 +15,7 @@
 //= require chosen.jquery.min
 //= require twitter/bootstrap
 //= require_tree .
+
+jQuery.fn.notice = function(msg) {
+  $(this).html(msg).parents(".alert").slideDown("fast");
+};

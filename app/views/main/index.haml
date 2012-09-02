@@ -22,7 +22,7 @@
               %a{:href => "#"} Privacy
             %li
               %a{:href => "#"} Terms of Use
-          %a.btn.btn-mini.btn-inverse{:href => "#"} Go on hiatus&nbsp;
+          %a.btn.btn-mini.btn-inverse{:href => "/hiatus", "data-remote" => "true"} Go on hiatus&nbsp;
           %a.btn.btn-danger.btn-mini{:href => "/logout"} Logout
 
   - if(flash[:error])
@@ -42,10 +42,17 @@
       %a.close{"data-dismiss" => "alert"} &times;
       %span#success
   %h3 The Meal Tag
-  -# if active
-  = render :partial => "users/unmatched"
-  -# else
-  =# render :partial => "users/match", :locals => {:m => @user}
+
+  - if @user.hiatus
+    #match.h
+      = render :partial => "users/hiatus"
+  - elsif not @user.matched
+    #match.um
+      = render :partial => "users/unmatched"
+  - else
+    #match.m
+      // Temporarily making the match the user itself (for style)
+      = render :partial => "users/match", :locals => {:m => @match}
 
   #history
     %h5 Your history

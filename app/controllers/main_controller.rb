@@ -5,6 +5,14 @@ class MainController < ApplicationController
     redirect_to "/welcome" and return if not (session[:cas_user] and session[:user_id])
     begin
       @user = User.find(session[:user_id])
+      @match = @user # Temporarily making match the user itself
+      # actually looks like:
+      # if @user.matched
+      # meal = @user.meals.where(done: false).first
+      # check in here somewhere that there is only one not-done meal
+      # @match = (meal.user_2 == @user) ? meal.user_1 : meal.user_2
+      # end
+
     rescue # Should never happen, in theory.
       flash[:error] = "No such user!"
       redirect_to "/welcome"

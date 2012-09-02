@@ -64,12 +64,12 @@ major_post = (text) ->
 # Also, any .alert is hidden on body click
 
 # Display success message
-success = (msg) ->
-  $("#success").html(msg).parents(".alert").slideDown("fast")
-  true
-# Display error message
-error = (msg) -> 
-  $("#error").html(msg).parents(".alert").slideDown("fast")
-  true
+# success = (msg) ->
+#   $("#success").html(msg).parents(".alert").slideDown("fast")
+#   true
+# # Display error message
+# error = (msg) -> 
+#   $("#error").html(msg).parents(".alert").slideDown("fast")
+#   true
 
 

@@ -1,0 +1,8 @@
+<% if @u.hiatus %>
+$("#success").notice("You're now on hiatus! See you soon");
+$("#match").removeClass("um m").addClass("h").html("<%= escape_javascript( render(:partial => "hiatus") ) %>")
+<% else %>
+$("#success").notice("Welcome back! You're no longer on hiatus.");
+$("#match").removeClass("h m").addClass("um").html("<%= escape_javascript( render(:partial => "unmatched") ) %>")
+
+<% end %>

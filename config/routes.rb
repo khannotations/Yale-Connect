@@ -8,6 +8,7 @@ Connect::Application.routes.draw do
   match "major" => "users#major"
   match "pair" => "meals#new", :via => [:post]
   match "done" => "meals#new", :via => [:post]
+  match "hiatus" => "users#hiatus"
 
   root :to => 'main#index'
 

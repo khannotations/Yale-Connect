@@ -1,14 +1,13 @@
 class Meal
   include Mongoid::Document
-  # field :user_2, :type => BSON:ObjectID
 
   field :date, :type => Date
   field :image
   field :feedback
   field :done, :type => Boolean, :default => false
 
-  belongs_to :user_1, class_name: "User", inverse_of: :meals
-  belongs_to :user_2, class_name: "User", inverse_of: :meals
+  belongs_to :user_1, class_name: "User", foreign_key: "user_1_id"
+  belongs_to :user_2, class_name: "User", foreign_key: "user_2_id"
 
   attr_accessible :image
 
@@ -18,8 +17,6 @@ class Meal
   # mount_uploader :image, MealTagUploader
 
   # attr_accessible :done, :date, :feedback
-
-  private
 
   def adjust_availability
     if not user_1.matched and not user_2.matched

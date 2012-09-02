@@ -1,10 +1,9 @@
-.match.um
-  %br
-  %p Get to know a random Yalie! We'll find you a buddy according to the options below.
-  = form_tag("/pair")
-  = check_box_tag "friends", "no", true
-  = label_tag "friends", "Exclude Facebook friends"
-  %br
-  = check_box_tag "interests", "yes", false
-  = label_tag "interests", "Try to match interests (may take a while to find a match)"
-  = submit_tag "Search!", :class => "btn btn-primary btn-large um"
+%br
+%p Get to know a random Yalie! We'll find you a buddy according to the options below.
+= form_tag("/pair")
+= check_box_tag "friends", "no", true
+= label_tag "friends", "Exclude Facebook friends"
+%br
+= check_box_tag "interests", "yes", false
+= label_tag "interests", "Try to match interests (may take a while to find a match)"
+= submit_tag "Search!", :class => "btn btn-primary btn-large um"

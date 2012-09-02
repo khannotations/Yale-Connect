@@ -14,13 +14,14 @@ class User
 
   field :matched, type: Boolean, default: false
   field :points, type: Integer, default: 0
+  field :hiatus, type: Boolean, default: false
 
   # From Facebook
   field :gender
   field :fbid
   field :fbtoken
 
-  has_many :meals, autosave: true
+  has_many :meals
 
   after_create :ldap
 

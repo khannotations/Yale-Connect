@@ -26,4 +26,21 @@ class UsersController < ApplicationController
     end
     render :json => {:status => "success", :message => "Major updated!"}
   end
+
+  def hiatus
+    @u = User.find(session[:user_id])
+
+    if @u.matched
+      @msg = "You can't go on hiatus with an outstanding meal!!"
+      render "main/error"
+      return
+    end
+    @u.hiatus = !@u.hiatus # switch hiatus
+    @u.save
+
+    respond_to do |format|
+      format.html
+      format.js
+    end
+  end
 end
