@@ -2,8 +2,14 @@ class UsersController < ApplicationController
 
   def facebook
     u = User.find(session[:user_id])
-    if u.fbid and u.fbtoken 
-      render :json => {:status => "success"}
+
+    if u.fbid
+      if params[:fbtoken]
+        u.update_attributes(fbtoken: params[:fbtoken])
+        render :json => {:status => "success"}
+      else
+        render :json => {:status => "fail"}
+      end
     else
       if params[:fbtoken] && params[:fbid]
         u.update_attributes(fbtoken: params[:fbtoken], fbid: params[:fbid])
@@ -40,6 +46,19 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       format.html
+      format.js
+    end
+  end
+
+  def pref
+    @u = User.find(session[:user_id])
+    friends = params[:friends] == "yes"
+    year = params[:year] == "yes" ? @u.year : false
+    @u.exclude_fb_friends = friends
+    @u.preferred_year = year
+
+    @u.save
+    respond_to do |format|
       format.js
     end
   end

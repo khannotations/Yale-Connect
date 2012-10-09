@@ -5,7 +5,7 @@ class MainController < ApplicationController
     redirect_to "/welcome" and return if not (session[:cas_user] and session[:user_id])
     begin
       @user = User.find(session[:user_id])
-      @match = @user # Temporarily making match the user itself
+      @match = @user # Temporarily for testing making match the user itself
       # actually looks like:
       # if @user.matched
       # meal = @user.meals.where(done: false).first
@@ -29,8 +29,8 @@ class MainController < ApplicationController
     if id # Check that user and session exists
       u = User.where(netid: id).first
       # If first sign in, create user
-      u = User.create(netid: id) if not u 
-
+      u = User.get_user(id) if not u 
+      
       session[:user_id] = u.id
       redirect_to :root
 

@@ -24,7 +24,9 @@ $(document).ready ->
 
   # Any ajax error in the body is handled the same way
   $("body").ajaxError( () ->
-    $("#error").html("An error occurred -- try refreshing the page. If the problem persists, please contact the webmaster or try again later :(").parents(".alert").slideDown("fast")
+    msg = "An error occurred -- try refreshing the page. \
+    If the problem persists, please contact the webmaster or try again later :("
+    $("#error").notice(msg)
   )
   # On click, hide alerts
   $("body").click( () ->
@@ -42,7 +44,7 @@ $(document).ready ->
     ).blur( () -> 
       new_major = $.trim($(this).html().replace(/&nbsp;/g, ""))
       if(old_major != new_major)
-        major_post(new_major)
+        post_major(new_major)
       else
         $(this).html(new_major)
     )
@@ -50,13 +52,13 @@ $(document).ready ->
   true
 
 # Post the major
-major_post = (text) ->
+post_major = (text) ->
   $.post("/major", {major: text}, (data) ->
     if(data.status == "fail")
-      error(data.message)
+      $("#error").notice(data.message)
       $("#major").html("Undecided")
     else if(data.status == "success")
-      success(data.message)
+      $("#success").notice(data.message)
   )
   true
 # Functions for dealing wtih success and failures

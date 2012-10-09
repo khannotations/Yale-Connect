@@ -23,8 +23,8 @@
             // from the facebook data
             location.reload();
           else if(data.status === "fail")
-            error("bad request!");
-            // Error is defined in main.js
+            $("#error").notice("bad request!");
+            // $.notice is defined in application.js
         });
         $("#fbtime").html(o.expiresIn)
       }

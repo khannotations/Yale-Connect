@@ -10,6 +10,7 @@ ENV['MONGOID_USERNAME'] = "admin"
 ENV['MONGOID_PASSWORD'] = "admin"
 ENV['MONGOID_DATABASE'] = "campus"
 
+ENV['CAS_PASS'] = "910qRuP0448"
 
 # Initialize the rails application
 Connect::Application.initialize!

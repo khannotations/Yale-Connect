@@ -17,12 +17,12 @@
           %a.btn.btn-mini.dropdown-toggle{:href => "#", "data-toggle"=>"dropdown"} 
             Help
             %span.caret
-          %ul.dropdown-menu
+          %ul#help-dropdown.dropdown-menu
             %li 
               %a{:href => "#"} Privacy
             %li
               %a{:href => "#"} Terms of Use
-          %a.btn.btn-mini.btn-inverse{:href => "/hiatus", "data-remote" => "true"} Go on hiatus&nbsp;
+          %a.btn.btn-mini.btn-inverse{:href => "/hiatus", "data-remote" => "true"} Toggle hiatus status&nbsp;
           %a.btn.btn-danger.btn-mini{:href => "/logout"} Logout
 
   - if(flash[:error])
@@ -48,7 +48,7 @@
       = render :partial => "users/hiatus"
   - elsif not @user.matched
     #match.um
-      = render :partial => "users/unmatched"
+      = render :partial => "users/unmatched", :locals => {:u => @user}
   - else
     #match.m
       // Temporarily making the match the user itself (for style)

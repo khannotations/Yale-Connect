@@ -13,6 +13,7 @@ gem 'json'
 gem 'httpclient'
 gem 'net-ldap'
 gem 'rubycas-client'
+gem 'mechanize' 
 
 gem 'koala'
 

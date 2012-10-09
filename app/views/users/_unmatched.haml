@@ -1,9 +1,21 @@
-%br
-%p Get to know a random Yalie! We'll find you a buddy according to the options below.
-= form_tag("/pair")
-= check_box_tag "friends", "no", true
+
+%p.big{:style => "margin: 10px 0;"} Get to know a Yalie! Every now and then, we'll match you with someone to grab a bite with. 
+%p Your new buddy will match the preferences you choose below:
+= form_tag("/pref", :remote => "true")
+- if u.exclude_fb_friends
+  = check_box_tag "friends", "yes", true
+- else
+  = check_box_tag "friends", "no", false
+
 = label_tag "friends", "Exclude Facebook friends"
 %br
-= check_box_tag "interests", "yes", false
-= label_tag "interests", "Try to match interests (may take a while to find a match)"
-= submit_tag "Search!", :class => "btn btn-primary btn-large um"
+- if u.preferred_year == u.year
+  = check_box_tag "year", "yes", true
+- else
+  = check_box_tag "year", "no", false
+
+= label_tag "year", "Pick only students in your grade"
+-#
+  = check_box_tag "interests", "yes", false
+  = label_tag "interests", "Try to match interests (may take a while to find a match)"
+= submit_tag "Update", :class => "btn btn-primary btn-large um"

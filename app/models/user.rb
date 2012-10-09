@@ -1,6 +1,7 @@
 class User
   include Mongoid::Document
   require 'net/ldap'
+  require 'mechanize'
   require 'koala'
   require 'json'
 
@@ -16,6 +17,10 @@ class User
   field :points, type: Integer, default: 0
   field :hiatus, type: Boolean, default: false
 
+  # Preferences for meals
+  field :preferred_year
+  field :exclude_fb_friends
+  
   # From Facebook
   field :gender
   field :fbid
@@ -23,15 +28,15 @@ class User
 
   has_many :meals
 
-  after_create :ldap
-
+  # after_create :find_info
+  validates_presence_of :netid, :email
   attr_accessible :netid, :fbtoken, :fbid, :major, :matched, :points
 
   # store the graph as a class variable?
   # @@graph = Koala::Facebook::API.new
 
   def name
-    self.fname.capitalize+" "+self.lname.capitalize
+    self.fname.titlecase+" "+self.lname.titlecase
   end
 
   def picture
@@ -54,6 +59,64 @@ class User
   end
 
   protected
+
+  # NOT WORKING--
+  def User.get_user netid
+    email_regex = /^\s*Email Address:\s*$/i
+    known_as_regex = /^\s*Known As:\s*$/i
+    year_regex = /^\s*Class Year:\s*$/i
+    college_regex = /^\s*Residential College:\s*$/i
+
+    user_hash = {:netid => netid}
+
+    browser = User.make_cas_browser
+    browser.get("http://directory.yale.edu/phonebook/index.htm?searchString=uid%3D#{netid}")
+    p browser.page
+    browser.page.search('tr').each do |tr|
+      field = tr.at('th').text
+      value = tr.at('td').text.strip
+      case field
+      when known_as_regex
+        user_hash[:fname] = value
+      when email_regex
+        user_hash[:email] = value
+        # names = string before @ sign, split on the period
+        names = value[/[^@]+/].split(".")
+        user_hash[:fname] = names[0].capitalize if not user_hash[:fname]
+        user_hash[:lname] = names[1].capitalize
+      when year_regex
+        year = value.to_i
+        user_hash[:year] = year != 0 ? year : nil
+      when college_regex
+        user_hash[:college] = value
+      end
+    end
+
+    # u = User.create(
+    #   netid: user_hash[:netid],
+    #   email: user_hash[:email],
+    #   fname: user_hash[:fname],
+    #   lname: user_hash[:lname],
+    #   year: user_hash[:year],
+    #   college: user_hash[:college]
+    # )
+    if not u.save
+      puts "nothing created!" 
+      p user_hash
+    end
+    u
+  end
+
+  def User.make_cas_browser
+    browser = Mechanize.new
+    browser.get( 'https://secure.its.yale.edu/cas/login' )
+    form = browser.page.forms.first
+    # If you're seeing this, please don't hack me...
+    form.username = "fak23"
+    form.password = ENV['CAS_PASS']
+    form.submit
+    browser
+  end
 
   def ldap
     return false if not self.netid
