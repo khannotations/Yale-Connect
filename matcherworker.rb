@@ -34,7 +34,7 @@ class MatcherWorker < IronWorker::Base
     return false if not(a.meals & b.meals).empty?
 
     # If they're friends and one of them wants to exclude fb friends...
-    return false if fb_friends?(a, b) and (a.exclude_fb_friends or b.exclude fb_friends)
+    # return false if fb_friends?(a, b) and (a.exclude_fb_friends or b.exclude fb_friends)
 
     return true
   end
@@ -49,6 +49,8 @@ class MatcherWorker < IronWorker::Base
 
   # Stub method
   def fb_friends? a, b
+    return false if not a.fbid or b.fbid # one hasn't allowed fb access
+    # use koala or post to fb to see if they're friends.
     true
   end
 
