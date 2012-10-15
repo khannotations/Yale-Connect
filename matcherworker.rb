@@ -12,30 +12,26 @@ class MatcherWorker
 
     candidates.each do |user|
       candidates.each do |potential|
-
-        continue if bad_pairing? user, potential
+        next if !good_pairing? user, potential
 
         match(user, potential) # match them
         # remove them from array
-        candidates.delete(user) 
-        candidates.delete(potential) 
       end
     end
-    p candidates # (somehow log all unmatched users)
   end
 
-  def bad_pairing? a, b
+  def good_pairing? a, b
     return false if a == b # can't be with yourself
+    return false if a.matched or b.matched
     # matching year preferences
-    return false unless a.preferred_year == b.year or a.preferred_year.nil?
-    return false unless b.preferred_year == a.year or b.preferred_year.nil?
+    return false unless a.preferred_year == b.year || a.preferred_year.nil?
+    return false unless b.preferred_year == a.year || b.preferred_year.nil?
 
     # already had a meal together (& is the set intersect operator)
-    return false if not(a.meals & b.meals).empty?
+    return false if !((a.meals & b.meals).empty?)
 
     # If they're friends and one of them wants to exclude fb friends...
-    return false if fb_friends?(a, b) and (a.exclude_fb_friends or b.exclude fb_friends)
-
+    #return false if fb_friends?(a, b) and (a.exclude_fb_friends or b.exclude fb_friends)
     return true
   end
 
