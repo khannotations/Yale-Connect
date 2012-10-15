@@ -1,4 +1,5 @@
 require 'mongoid'
+require 'koala'
 require "/Users/akshaynathan/projects/Yale-Connect/app/models/user.rb"
 require "/Users/akshaynathan/projects/Yale-Connect/app/models/meal.rb"
 
@@ -31,27 +32,27 @@ class MatcherWorker
     return false if !((a.meals & b.meals).empty?)
 
     # If they're friends and one of them wants to exclude fb friends...
-<<<<<<< HEAD
-    # return false if fb_friends?(a, b) and (a.exclude_fb_friends or b.exclude fb_friends)
-
-=======
-    #return false if fb_friends?(a, b) and (a.exclude_fb_friends or b.exclude fb_friends)
->>>>>>> 0804e47f1a50ecd6412a023fc05e56e30de578ce
+    return false if (a.exclude_fb_friends or b.exclude fb_friends) and fb_friends?(a, b)
     return true
   end
 
   def match user1, user2
-    m = Meal.new
-    m.user_1 = user1
-    m.user_2 = user2
+    m = Meal.create(
+      user_1: user1,
+      user_2: user2
+      )
     m.save
   end
 
   # Stub method
   def fb_friends? a, b
     return false if not a.fbid or b.fbid # one hasn't allowed fb access
-    # use koala or post to fb to see if they're friends.
-    true
+    graph = Koala::Facebook::API.new(a.fbtoken)
+
+    friends = graph.get_connections("me", "friends")
+    friends.each do |f|
+      puts "yes" if f["id"] == b.fbid
+    end
   end
 
   def init_mongodb
