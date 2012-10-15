@@ -30,7 +30,7 @@ class User
   # after_create :find_info
   validates_presence_of :netid, :email
   validates_uniqueness_of :netid, :email, :fbtoken, :fbid 
-  attr_accessible :netid, :email, :fname, :lname, :fbtoken, :fbid, :major, :matched, :points
+  attr_accessible :year, :preferred_year, :netid, :email, :fname, :lname, :fbtoken, :fbid, :major, :matched, :points
 
   # store the graph as a class variable?
   # @@graph = Koala::Facebook::API.new
