@@ -1,0 +1,19 @@
+%h3.header Your history
+- if @past_meals.empty?
+  %p You haven't had any meals yet!
+-else 
+
+  %table.table.table-condensed.table-striped
+    %thead
+      %tr
+        %td Name
+        %td Date
+        %td Picture
+    %tbody
+      - @past_meals.each do |meal|
+        - other = meal.get_other(@user)
+        %tr
+          %td= other.name
+          %td= meal.pretty_date
+          %td
+            %img{:src => meal.image, :alt => "No pic"}

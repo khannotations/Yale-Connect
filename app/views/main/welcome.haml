@@ -7,6 +7,10 @@
     .alert.alert-success.fade.in
       %a.close{"data-dismiss" => "alert"} &times;
       %span#success= flash[:success]
+  - if(flash[:error])
+    .alert.alert-error.fade.in
+      %a.close{"data-dismiss" => "alert"} &times;
+      %span#error= flash[:error]
   %p.big Here, you'll meet and interact with your classmates like you've never done before. 
   %br
   %a{:href => "/auth"}

@@ -40,8 +40,12 @@ b, h1, h2, h3, h4 {
   }
   h3 {
     font-size: 180%;
+    line-height: 100%;
     margin: 0px;
     margin-bottom: 10px;
+    &.header {
+      margin: 10px 0;
+    }
   }
 }
 
@@ -67,6 +71,7 @@ b, h1, h2, h3, h4 {
 
 .user-pic {
   height: @pic-height;
+  width: @pic-height;
   border: 2pt white ridge;
   
   margin-right: 10px;
@@ -85,5 +90,9 @@ b, h1, h2, h3, h4 {
 
 #help-dropdown {
   margin-right: 71px;
+}
+
+#history td {
+  line-height: 30px;
 }
 

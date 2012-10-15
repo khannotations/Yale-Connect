@@ -1,0 +1,24 @@
+- if ENV["RAILS_ENV"] == "development"
+  - url = "http://localhost.com:3000"
+- else
+  - url = "http://yaleconnect.heroku.com"
+
+
+- if current_facebook_user
+  #fbmodal.modal.hide.fade.in
+    .modal-header
+      %h2 Just one more step!
+    .modal-body
+      Logging in with Facebook will make your Yale Connect experience exponentially better!
+      %a#fbtooltip{:href => "#"} How? 
+      #fblogin
+        -#
+          = fb_login_and_redirect('/', :scope => 'user_about_me, user_interests, user_hometown, user_likes', :text => 'Log me in! I love exponents!', :v => "2")
+
+        :erb 
+          <fb:login-button show-faces="false" max-rows="1" scope="user_about_me, user_interests, user_hometown, user_likes" registration-uri="<%= url %>" size="large" onlogin="window.location.href='/';" v="2">
+            Log Me In! I love exponents!
+          </fb:login-button>
+        %br
+        %br
+        %a{:href => "#", "data-dismiss"=>"modal"} Skip for now =>

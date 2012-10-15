@@ -1,25 +1,5 @@
 class UsersController < ApplicationController
 
-  def facebook
-    u = User.find(session[:user_id])
-
-    if u.fbid
-      if params[:fbtoken]
-        u.update_attributes(fbtoken: params[:fbtoken])
-        render :json => {:status => "success"}
-      else
-        render :json => {:status => "fail"}
-      end
-    else
-      if params[:fbtoken] && params[:fbid]
-        u.update_attributes(fbtoken: params[:fbtoken], fbid: params[:fbid])
-        render :json => {:status => "refresh"}
-      else
-        render :json => {:status => "fail"}
-      end
-    end
-  end
-
   def major
     m = params[:major]
     u = User.find(session[:user_id])
@@ -34,15 +14,15 @@ class UsersController < ApplicationController
   end
 
   def hiatus
-    @u = User.find(session[:user_id])
+    @user = User.find(session[:user_id])
 
-    if @u.matched
+    if @user.matched?
       @msg = "You can't go on hiatus with an outstanding meal!!"
       render "main/error"
       return
     end
-    @u.hiatus = !@u.hiatus # switch hiatus
-    @u.save
+    @user.hiatus = !@user.hiatus # switch hiatus
+    @user.save
 
     respond_to do |format|
       format.html
@@ -51,15 +31,40 @@ class UsersController < ApplicationController
   end
 
   def pref
-    @u = User.find(session[:user_id])
+    @user = User.find(session[:user_id])
     friends = params[:friends] == "yes"
-    year = params[:year] == "yes" ? @u.year : false
-    @u.exclude_fb_friends = friends
-    @u.preferred_year = year
+    year = params[:year] == "yes"
+    @user.exclude_fb_friends = friends
+    @user.prefers_same_year = year
 
-    @u.save
+    @user.save
     respond_to do |format|
       format.js
     end
   end
+
+  def facebook
+    u = User.find(session[:user_id])
+
+    if u.fbid
+      if params[:fbtoken]
+        u.update_attributes(fbtoken: params[:fbtoken])
+        render :json => {:status => "success"}
+        u.get_offline_token # Refresh offline_token
+      else
+        render :json => {:status => "fail"}
+      end
+    else
+      if params[:fbtoken] && params[:fbid]
+        u.update_attributes(fbtoken: params[:fbtoken], fbid: params[:fbid])
+        render :json => {:status => "refresh"}
+        u.get_offline_token # Get offline_token
+      else
+        render :json => {:status => "fail"}
+      end
+    end
+  end
+
 end
+
+

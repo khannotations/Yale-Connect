@@ -25,77 +25,47 @@
           %a.btn.btn-mini.btn-inverse{:href => "/hiatus", "data-remote" => "true"} Toggle hiatus status&nbsp;
           %a.btn.btn-danger.btn-mini{:href => "/logout"} Logout
 
-  - if(flash[:error])
-    .alert.alert-error.fade.in
-      %a.close{"data-dismiss" => "alert"} &times;
-      %span#error= flash[:error]
-  - else
-    .alert.alert-error.fade.in.hide
-      %a.close{"data-dismiss" => "alert"} &times;
-      %span#error
-  - if(flash[:success])
-    .alert.alert-success.fade.in
-      %a.close{"data-dismiss" => "alert"} &times;
-      %span#success= flash[:success]
-  - else
-    .alert.alert-success.fade.in.hide
-      %a.close{"data-dismiss" => "alert"} &times;
-      %span#success
-  %h3 The Meal Tag
+  = render :partial => "alerts"
+
+  %h3.header The Meal Tag
 
   - if @user.hiatus
     #match.h
       = render :partial => "users/hiatus"
-  - elsif not @user.matched
+  - elsif not @user.match
     #match.um
-      = render :partial => "users/unmatched", :locals => {:u => @user}
+      = render :partial => "users/unmatched"
   - else
     #match.m
       // Temporarily making the match the user itself (for style)
-      = render :partial => "users/match", :locals => {:m => @match}
+      = render :partial => "users/match"
 
   #history
-    %h5 Your history
-    -# Table with all your meals and pictures
-    %table.table.table-condensed.table-striped
-      %thead
-        %tr
-          %td Name
-          %td Date
-          %td Picture
-      %tbody
-        -# @user.past_meals do |meal|
-        %tr
-          %td Someone
-          %td Sometime
-          %td
-            %img{:src => @user.picture, :alt => "No picture"}
-        %tr
-          %td Someone
-          %td Sometime
-          %td
-            %img{:src => @user.picture, :alt => "No picture"}
+    = render :partial => "history"
 
-    .rule
+
+  .rule
   #leaderboard
-    %h5 Leaderboard
+    %h3.header Leaderboard
     %table.table.table-condensed.table-striped
       %thead
         %tr
+          %td Place
           %td Name
           %td College / Year
           %td Points
       %tbody
-        -# @user.past_meals do |meal|
-        %tr
-          %td Someone
-          %td PC 2015
-          %td 30
-        %tr
-          %td Someone
-          %td TD 2014
-          %td 30
+        - i = 0
+        - @leaders.each do |l|
+          - i+=1
+          %tr
+            %td
+              %strong= i
+            %td= l.name
+            %td= "#{l.college} #{l.year}"
+            %td= l.points
 
+-#
   -# Table with top 5, plus your rank
   %h3 Search by interest
   :plain
@@ -120,11 +90,6 @@
   -else 
     %p Log into facebook to see interests
 
-  - if ENV["RAILS_ENV"] == "development"
-    - url = "http://localhost.com:3000"
-  - else
-    - url = "http://yaleconnect.heroku.com"
-
   .tiny 
     %p
       FB token
@@ -144,17 +109,4 @@
       seconds left
       %span#fbtime
 
-  #fbmodal.modal.hide.fade.in
-    .modal-header
-      %h2 Just one more step!
-    .modal-body
-      Logging in with Facebook will make your Yale Connect experience exponentially better!
-      %a#fbtooltip{:href => "#"} how? 
-      #fblogin
-        :erb 
-          <fb:login-button show-faces="false" max-rows="1" scope="user_about_me, user_interests, user_hometown, user_likes" registration-uri="<%= url %>" size="large" onlogin="window.location.href='/';">
-            Yay! I love exponents!
-          </fb:login-button>
-        %br
-        %br
-        %a{:href => "#", "data-dismiss"=>"modal"} Skip for now =>
+= render :partial => "fb_modal"

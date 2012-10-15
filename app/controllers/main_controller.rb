@@ -2,21 +2,39 @@ class MainController < ApplicationController
   before_filter CASClient::Frameworks::Rails::Filter, :only => [:auth]
 
   def index
-    redirect_to "/welcome" and return if not (session[:cas_user] and session[:user_id])
+    redirect_to "/welcome" and return if !(session[:cas_user] && session[:user_id])
+    # fetch_client_and_user
+
     begin
       @user = User.find(session[:user_id])
-      @match = @user # Temporarily for testing making match the user itself
-      # actually looks like:
-      # if @user.matched
-      # meal = @user.meals.where(done: false).first
-      # check in here somewhere that there is only one not-done meal
-      # @match = (meal.user_2 == @user) ? meal.user_1 : meal.user_2
-      # end
-
     rescue # Should never happen, in theory.
       flash[:error] = "No such user!"
       redirect_to "/welcome"
+      return
     end
+
+    if current_facebook_user
+      current_facebook_user.fetch
+      # If this is the user's first time logging in with facebook...
+      @user.fbid = current_facebook_user.id if !@user.fbid
+      if current_facebook_user.id != @user.fbid
+        puts "fbid: #{@user.fbid}, c_f_u.id: #{current_facebook_user.id}"
+        flash[:error] = "Please log yourself into Facebook." 
+        redirect_to "/welcome"
+      end
+      @user.fbtoken = current_facebook_user.client.access_token
+      if !@user.save
+        flash[:error] = "Error with Facebook. Please contact the webmaster."
+        redirect_to "/welcome" 
+        return
+      end 
+      print "Found a fb user: #{current_facebook_user.first_name}: #{current_facebook_user.client.access_token}"
+
+    end
+
+    @match = @user.match 
+    @past_meals = @user.past_meals
+    @leaders = User.leaders
 
   end
 

@@ -5,37 +5,82 @@ class User
   require 'koala'
   require 'json'
 
-  field :fname
-  field :lname
-  field :email
-  field :college
-  field :year
-  field :netid
+  field :fname, type: String
+  field :lname, type: String
+  field :email, type: String
+  field :college, type: String
+  field :year, type: String
+  field :netid, type: String
   field :major, default: "Undecided"
 
-  field :matched, type: Boolean, default: false
   field :points, type: Integer, default: 0
   field :hiatus, type: Boolean, default: false
 
   # Preferences for meals
-  field :preferred_year
-  field :exclude_fb_friends
+  field :prefers_same_year, default: false
+  field :exclude_fb_friends, default: true
   
   # From Facebook
   field :gender
   field :fbid
   field :fbtoken
+  field :fboffline_token
 
   has_many :meals
   # after_create :find_info
   validates_presence_of :netid, :email
-  validates_uniqueness_of :netid, :email, :fbtoken, :fbid 
-  attr_accessible :year, :preferred_year, :netid, :email, :fname, :lname, :fbtoken, :fbid, :major, :matched, :points
+  validates_uniqueness_of :netid, :email
+  validates_uniqueness_of :fbid, :allow_nil => true
+  attr_accessible :netid, :email, :fname, :lname, :year, :college, :prefers_same_year, :fbtoken, :fbid, :major, :points
+
+  scope :leaders, order_by(:points => :desc).limit(5)
 
   # store the graph as a class variable?
   # @@graph = Koala::Facebook::API.new
+
+  def past_meals
+    (Meal.includes(:user_2).where(user_1_id: self.id, done: true).to_a + 
+      Meal.includes(:user_1).where(user_2_id: self.id, done: true).to_a)
+  end
+
+  def past_matches
+    past_matches = []
+    meals_one = Meal.includes(:user_2).where(user_1_id: self.id, done: true).to_a
+    meals_two = Meal.includes(:user_1).where(user_2_id: self.id, done: true).to_a
+
+    meals_one.each do |m|
+      past_matches << m.user_2
+    end
+
+    meals_two.each do |m|
+      past_matches << m.user_1
+    end
+
+    past_matches
+  end
+
+  def active_meal
+    # Should only be one
+    (Meal.includes(:user_2).where(user_1_id: self.id, done: false).limit(1) + 
+      Meal.includes(:user_1).where(user_2_id: self.id, done: false).limit(1)).first
+  end
+
+  def match
+
+    m = self.active_meal
+    return nil if m.nil?
+
+    self == m.user_1 ? m.user_2 : m.user_1
+
+  end
+
+  def matched?
+    !self.match.nil?
+  end
+
   def name
-    self.fname.titlecase+" "+self.lname.titlecase
+    return self.fname.titlecase+" "+self.lname.titlecase if self.fname && self.lname
+    "no name"
   end
 
   def picture
@@ -57,9 +102,23 @@ class User
     # likes += self.interests
   end
 
+  def get_offline_token
+    browser = Mechanize.new
+    url = 
+"https://graph.facebook.com/oauth/access_token?\
+client_id=#{ENV["fbkey"]}&\
+client_secret=#{ENV["fbsecret"]}&\
+grant_type=fb_exchange_token&\
+fb_exchange_token=#{self.fbtoken}"
+    browser.get( url )
+    # replace other text in the response body
+    token = browser.page.body.gsub(/(access_token=|&expires=\d+)/, "")
+    self.fboffline_token = token
+    self.save
+  end
+
   protected
 
-  # NOT WORKING--
   def User.get_user netid
     email_regex = /^\s*Email Address:\s*$/i
     known_as_regex = /^\s*Known As:\s*$/i
@@ -84,8 +143,8 @@ class User
         user_hash[:fname] = names[0].capitalize if not user_hash[:fname]
         user_hash[:lname] = names[1].capitalize
       when year_regex
-        year = value.to_i
-        user_hash[:year] = year != 0 ? year : nil
+        year = value
+        user_hash[:year] = year != "" ? year : nil
       when college_regex
         user_hash[:college] = value
       end
@@ -102,6 +161,7 @@ class User
     if not u.save
       puts "nothing created!" 
       p user_hash
+      p u.errors
     end
     u
   end
@@ -117,6 +177,7 @@ class User
     browser
   end
 
+=begin
   def ldap
     return false if not self.netid
 
@@ -144,4 +205,5 @@ class User
     self.college = ( p['college'] ? p['college'][0] : '' )
     self.save!
   end
+=end
 end

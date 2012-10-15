@@ -1,18 +1,22 @@
 
-%p.big{:style => "margin: 10px 0;"} Get to know a Yalie! Every now and then, we'll match you with someone to grab a bite with. 
+%p.big{:style => "margin: 10px 0;"} 
+  Get to know a Yalie!
+  %br
+  Every now and then, we'll match you with someone to grab a bite with. 
 %p Your new buddy will match the preferences you choose below:
 = form_tag("/pref", :remote => "true")
-- if u.exclude_fb_friends
-  = check_box_tag "friends", "yes", true
-- else
-  = check_box_tag "friends", "no", false
+- if @user.fbid
+  - if @user.exclude_fb_friends
+    = check_box_tag "friends", "yes", true
+  - else
+    = check_box_tag "friends", "yes", false
 
-= label_tag "friends", "Exclude Facebook friends"
+  = label_tag "friends", "Exclude Facebook friends"
 %br
-- if u.preferred_year == u.year
+- if @user.prefers_same_year
   = check_box_tag "year", "yes", true
 - else
-  = check_box_tag "year", "no", false
+  = check_box_tag "year", "yes", false
 
 = label_tag "year", "Pick only students in your grade"
 -#

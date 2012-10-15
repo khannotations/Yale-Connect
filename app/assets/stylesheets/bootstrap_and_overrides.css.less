@@ -14,13 +14,29 @@
 
 // Font Awesome
 @import "fontawesome";
-
-h4 {
-  margin: 5px 0px 10px;
+.transition(@item: all, @dur: 1s, @ease: ease, @delay: 0) {
+  -o-transition: @item @dur @ease @delay;
+  -moz-transition: @item @dur @ease @delay;
+  -webkit-transition: @item @dur @ease @delay;
+  transition: @item @dur @ease @delay;
 }
 
-.modal, .btn, .alert, .dropdown-menu, .btn-group.open .dropdown-menu, .btn-group .btn:first-child, .btn-group .btn:last-child {
+h4 {
+  margin: 5px 0px 15px;
+}
+ul {
+  list-style:none;
+}
+
+.modal, .btn, .alert, .dropdown-menu, .btn-group.open .dropdown-menu, .btn-group .btn:first-child, 
+.btn-group .btn:last-child, .popover, .popover-title  {
   .border-radius(0px);
+}
+
+.popover-title {
+  background-color: #29447E;
+  color: white;
+
 }
 
 input, button, select, textarea {
@@ -36,9 +52,20 @@ input, button, select, textarea {
     padding: 5px 15px;
   }
 }
-
-
-ul {
-  list-style:none;
+/*
+.table-striped tbody tr {
+  .transition(background-color, 0.2s);
+  &:hover {
+    background-color: rgba(255,255,255,0.6);
+  }
 }
+*/
+.table-striped tbody tr:nth-child(odd) td {
+  background-color: rgba(255,255,255,0.5);
+}
+
+thead {
+  border-bottom: 1pt solid #333;
+}
+
 

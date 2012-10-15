@@ -16,6 +16,7 @@ gem 'rubycas-client'
 gem 'mechanize' 
 
 gem 'koala'
+gem 'facebooker2'
 
 # gem 'rmagick'
 gem 'carrierwave'

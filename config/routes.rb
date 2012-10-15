@@ -7,7 +7,7 @@ Connect::Application.routes.draw do
   match "facebook" => "users#facebook", :via => [:post]
   match "major" => "users#major"
   match "pref" => "users#pref", :via => [:post]
-  match "done" => "meals#new", :via => [:post]
+  match "done" => "meals#create", :via => [:post]
   match "hiatus" => "users#hiatus"
 
   root :to => 'main#index'

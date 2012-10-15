@@ -9,11 +9,13 @@ $(document).ready ->
     animation: true,
     placement: "right",
     title: "Why the Book rocks",
-    content: "With Facebook, you can control whether you meet friends, strangers, or both. It gives you a better handle on your privacy, more options, and helps ensure you make lasting connections.",
+    content: "With Facebook, you can control whether you meet friends, strangers, or both. \
+It gives you a better handle on your privacy, more options, and increases your chances of making lasting connections.",
     delay: {
       show: 0,
       hide: 200
-    }
+    },
+    trigger: "hover"
   })
 
   # Stupid tooltip test on CAS login button on splash page
@@ -61,17 +63,3 @@ post_major = (text) ->
       $("#success").notice(data.message)
   )
   true
-# Functions for dealing wtih success and failures
-# Any ajax error in the body is handled by displaying the following alert.
-# Also, any .alert is hidden on body click
-
-# Display success message
-# success = (msg) ->
-#   $("#success").html(msg).parents(".alert").slideDown("fast")
-#   true
-# # Display error message
-# error = (msg) -> 
-#   $("#error").html(msg).parents(".alert").slideDown("fast")
-#   true
-
-

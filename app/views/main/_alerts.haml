@@ -1,0 +1,16 @@
+- if(flash[:error])
+  .alert.alert-error.fade.in
+    %a.close{"data-dismiss" => "alert"} &times;
+    %span#error= flash[:error]
+- else
+  .alert.alert-error.fade.in.hide
+    %a.close{"data-dismiss" => "alert"} &times;
+    %span#error
+- if(flash[:success])
+  .alert.alert-success.fade.in
+    %a.close{"data-dismiss" => "alert"} &times;
+    %span#success= flash[:success]
+- else
+  .alert.alert-success.fade.in.hide
+    %a.close{"data-dismiss" => "alert"} &times;
+    %span#success
