@@ -25,8 +25,8 @@ gem 'haml'
 
 gem 'mongoid'
 gem 'mongo'
-gem 'bson'
-gem 'bson_ext'
+gem 'bson', '1.6.2' 
+gem 'bson_ext', '1.6.2'
 
 # Gems used only for assets and not required
 # in production environments by default.
