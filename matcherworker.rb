@@ -1,12 +1,12 @@
 require 'mongoid'
-require 'ironworker'
+require "/Users/akshaynathan/projects/Yale-Connect/app/models/user.rb"
+require "/Users/akshaynathan/projects/Yale-Connect/app/models/meal.rb"
 
-class MatcherWorker < IronWorker::Base
+class MatcherWorker
 
-  merge "app/models/user.rb"
-  merge "app/models/meal.rb"
 
   def run
+    init_mongodb
     # Get all unmatched, unhiatused users
     candidates = User.where({"matched" => false, "hiatus" => false}).to_a  # match preferences
 
@@ -44,7 +44,6 @@ class MatcherWorker < IronWorker::Base
     m.user_1 = user1
     m.user_2 = user2
     m.save
-    # Sendgrid.send
   end
 
   # Stub method
@@ -56,8 +55,13 @@ class MatcherWorker < IronWorker::Base
 
   def init_mongodb
     Mongoid.configure do |config|
-      config.database = Mongo::Connection.from_uri("mongodb://admin:admin@ds033097.mongolab.com:33097/campus")
+      config.database = Mongo::Connection.from_uri("mongodb://admin:admin@ds033097.mongolab.com:33097/campus")["campus"]
       config.persist_in_safe_mode = false
     end
   end
+end
+
+if __FILE__ == $0
+  x = MatcherWorker.new
+  x.run # or go, or whatever
 end

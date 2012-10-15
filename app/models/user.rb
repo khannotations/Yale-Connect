@@ -27,14 +27,13 @@ class User
   field :fbtoken
 
   has_many :meals
-
   # after_create :find_info
   validates_presence_of :netid, :email
-  attr_accessible :netid, :fbtoken, :fbid, :major, :matched, :points
+  validates_uniqueness_of :netid, :email, :fbtoken, :fbid 
+  attr_accessible :netid, :email, :fname, :lname, :fbtoken, :fbid, :major, :matched, :points
 
   # store the graph as a class variable?
   # @@graph = Koala::Facebook::API.new
-
   def name
     self.fname.titlecase+" "+self.lname.titlecase
   end
@@ -92,14 +91,14 @@ class User
       end
     end
 
-    # u = User.create(
-    #   netid: user_hash[:netid],
-    #   email: user_hash[:email],
-    #   fname: user_hash[:fname],
-    #   lname: user_hash[:lname],
-    #   year: user_hash[:year],
-    #   college: user_hash[:college]
-    # )
+    u = User.create(
+        netid: user_hash[:netid],
+        email: user_hash[:email],
+        fname: user_hash[:fname],
+        lname: user_hash[:lname],
+        year: user_hash[:year],
+        college: user_hash[:college]
+    )
     if not u.save
       puts "nothing created!" 
       p user_hash
