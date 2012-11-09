@@ -12,8 +12,9 @@
     %tbody
       - @past_meals.each do |meal|
         - other = meal.get_other(@user)
-        %tr
-          %td= other.name
-          %td= meal.pretty_date
-          %td
-            %img{:src => meal.image, :alt => "No pic"}
+        - if other
+          %tr
+            %td= other.name
+            %td= meal.pretty_date
+            %td
+              %img{:src => meal.image, :alt => "No pic"}
