@@ -10,6 +10,7 @@ ENV['MONGOID_PORT'] = credentials['mongo_port']
 ENV['MONGOID_USERNAME'] = credentials['mongo_id']
 ENV['MONGOID_PASSWORD'] = credentials['mongo_pass']
 ENV['MONGOID_DATABASE'] = credentials['mongo_db']
+ENV['MONGOID_URL'] = credentials['mongo_url']
 ENV["fbsecret"] = credentials['fb_secret']
 ENV["fbkey"] = credentials['fb_key']
 

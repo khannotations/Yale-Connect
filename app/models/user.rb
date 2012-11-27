@@ -111,6 +111,14 @@ fb_exchange_token=#{self.fbtoken}"
     self.save
   end
 
+  def User.mongo_connect
+    uri = ENV['MONGOID_URL']
+    puts uri
+    database = ENV['MONGOID_DATABASE']
+    db = Mongo::Connection.from_uri(uri)[database]
+    return db
+  end
+
   protected
 
   def User.get_user netid

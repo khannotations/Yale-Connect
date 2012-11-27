@@ -15,7 +15,6 @@ class UsersController < ApplicationController
 
   def hiatus
     @user = User.find(session[:user_id])
-
     if @user.matched?
       @msg = "You can't go on hiatus with an outstanding meal!!"
       render "main/error"
