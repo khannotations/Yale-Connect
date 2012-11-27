@@ -31,7 +31,8 @@ class MainController < ApplicationController
       print "Found a fb user: #{current_facebook_user.first_name}: #{current_facebook_user.client.access_token}"
 
     end
-
+    db = Mongo::Connection.from_uri("mongodb://admin:admin@ds033097.mongolab.com:33097/campus")["campus"] 
+    @grid = Mongo::Grid.new db 
     @match = @user.match 
     @past_meals = @user.past_meals
     @leaders = User.leaders

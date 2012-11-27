@@ -17,4 +17,4 @@
             %td= other.name
             %td= meal.pretty_date
             %td
-              %img{:src => meal.image, :alt => "No pic"}
+              %img{:src => @grid.get(meal.id), :alt => "No pic"}

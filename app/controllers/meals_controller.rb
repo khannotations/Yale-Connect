@@ -1,19 +1,16 @@
 class MealsController < ApplicationController
 
   def create
-
     user = User.find(session[:user_id])
-
     meal = user.active_meal
     raise if meal.nil?
     if meal.update_attributes(
-      done: true, 
-      date: DateTime.now
-      )
+        done: true, 
+        date: DateTime.now)
       points = 1
       p = "point"
       image = params[:image]
-      if params[:image]
+      if image
         points = 2 
         p = "points"
       end
@@ -24,7 +21,6 @@ class MealsController < ApplicationController
       grid = Mongo::Grid.new db 
       id   = grid.put(image)
       meal.update_attributes(id: id)
-
 
       meal.user_1.inc(:points, points)
       meal.user_2.inc(:points, points)

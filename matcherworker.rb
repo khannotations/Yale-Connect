@@ -4,8 +4,6 @@ require "/Users/akshaynathan/projects/Yale-Connect/app/models/user.rb"
 require "/Users/akshaynathan/projects/Yale-Connect/app/models/meal.rb"
 
 class MatcherWorker
-
-
   def run
     init_mongodb
     # Get all unhiatused users
@@ -13,33 +11,28 @@ class MatcherWorker
     candidates.each do |user|
       next if user.matched?
       candidates.each do |potential|
-        break if user.matched?
+        # We check again in case user was matched in a previous iteration
+        # break if user.matched? 
         next if potential.matched?
         puts "got #{user.netid} #{potential.netid} unmatched!"
         next if !good_pairing? user, potential
         match(user, potential) # match them
         puts "made a meal: #{user.netid} #{potential.netid}"
-
-        # remove them from array
+        break
       end
     end
   end
 
   def good_pairing? a, b
     return false if a == b # can't be with yourself
-    # already checking for this above
-    # return false if a.matched? or b.matched?
     # matching year preferences
-
     return false unless !a.prefers_same_year || (a.prefers_same_year && a.year == b.year)
     return false unless !b.prefers_same_year || (b.prefers_same_year && b.year == a.year)
 
     # already had a meal together (& is the set intersect operator)
-
     return false if !((a.meals & b.meals).empty?)
 
     # If they're friends and one of them wants to exclude fb friends...
-
     return false if (a.exclude_fb_friends or b.exclude_fb_friends) and fb_friends?(a, b)
     return true
   end
