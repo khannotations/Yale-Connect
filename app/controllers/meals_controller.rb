@@ -12,12 +12,18 @@ class MealsController < ApplicationController
       )
       points = 1
       p = "point"
+      image = params[:image]
       if params[:image]
         points = 2 
         p = "points"
       end
 
+      # what are we doing for image processing, right now we can retrieve images by grid.get(id)
       # HANDLE IMAGE STORING HERE
+      db = Mongo::Connection.from_uri("mongodb://admin:admin@ds033097.mongolab.com:33097/campus")["campus"] 
+      grid = Mongo::Grid.new db 
+      id   = grid.put(image)
+      meal.update_attributes(id: id)
 
 
       meal.user_1.inc(:points, points)

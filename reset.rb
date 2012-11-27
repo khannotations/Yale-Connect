@@ -1,7 +1,6 @@
 require 'mongoid'
-require "/Users/rafi/Desktop/Programming/rails/connect/app/models/user.rb"
-require "/Users/rafi/Desktop/Programming/rails/connect/app/models/meal.rb"
-
+require "/Users/akshaynathan/projects/Yale-Connect/app/models/user.rb"
+require "/Users/akshaynathan/projects/Yale-Connect/app/models/meal.rb"
 # require "/Users/akshaynathan/projects/Yale-Connect/app/models/user.rb"
 # require "/Users/akshaynathan/projects/Yale-Connect/app/models/meal.rb"
 
