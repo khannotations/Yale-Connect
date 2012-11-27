@@ -11,6 +11,9 @@
           #{@user.email} | #{@user.college} #{@user.year}&nbsp;| 
           %span#major{:contentEditable => true} #{@user.major}
           %span (click to edit)
+          | Points: 
+          %strong= @user.points
+          %a.small#points{:href=>"#"} What's this?
       .right.pull-right
         -#%img.block{:src => "/assets/yale.jpg", :width => "100px", :height => "30px"}
         .btn-group

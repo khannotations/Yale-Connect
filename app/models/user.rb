@@ -47,15 +47,12 @@ class User
     past_matches = []
     meals_one = Meal.includes(:user_2).where(user_1_id: self.id, done: true).to_a
     meals_two = Meal.includes(:user_1).where(user_2_id: self.id, done: true).to_a
-
     meals_one.each do |m|
       past_matches << m.user_2
     end
-
     meals_two.each do |m|
       past_matches << m.user_1
     end
-
     past_matches
   end
 
@@ -66,12 +63,9 @@ class User
   end
 
   def match
-
     m = self.active_meal
     return nil if m.nil?
-
     self == m.user_1 ? m.user_2 : m.user_1
-
   end
 
   def matched?
@@ -115,6 +109,14 @@ fb_exchange_token=#{self.fbtoken}"
     token = browser.page.body.gsub(/(access_token=|&expires=\d+)/, "")
     self.fboffline_token = token
     self.save
+  end
+
+  def User.mongo_connect
+    uri = ENV['MONGOID_URL']
+    puts uri
+    database = ENV['MONGOID_DATABASE']
+    db = Mongo::Connection.from_uri(uri)[database]
+    return db
   end
 
   protected
@@ -170,40 +172,9 @@ fb_exchange_token=#{self.fbtoken}"
     browser = Mechanize.new
     browser.get( 'https://secure.its.yale.edu/cas/login' )
     form = browser.page.forms.first
-    # If you're seeing this, please don't hack me...
-    form.username = "fak23"
+    form.username = ENV['NETID']
     form.password = ENV['CAS_PASS']
     form.submit
     browser
   end
-
-=begin
-  def ldap
-    return false if not self.netid
-
-    begin
-      ldap = Net::LDAP.new( :host =>"directory.yale.edu" , :port =>"389" )
-
-      f = Net::LDAP::Filter.eq('uid', self.netid)
-      b = 'ou=People,o=yale.edu'
-      p = ldap.search(:base => b, :filter => f, :return_result => true).first
-
-    rescue Exception => e
-      logger.debug :text => e
-      logger.debug :text => "*** ERROR with LDAP"
-      return false
-    end
-  
-    # self.netid = ( p['uid'] ? p['uid'][0] : '' )
-    self.fname = ( p['knownAs'] ? p['knownAs'][0] : '' )
-    if self.fname.blank?
-      self.fname = ( p['givenname'] ? p['givenname'][0] : '' )
-    end
-    self.lname = ( p['sn'] ? p['sn'][0] : '' )
-    self.email = ( p['mail'] ? p['mail'][0] : '' )
-    self.year = ( p['class'] ? p['class'][0].to_i : 0 )
-    self.college = ( p['college'] ? p['college'][0] : '' )
-    self.save!
-  end
-=end
 end

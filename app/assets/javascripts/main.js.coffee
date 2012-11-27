@@ -17,9 +17,15 @@ It gives you a better handle on your privacy, more options, and increases your c
     },
     trigger: "hover"
   })
+  $("#points").popover({
+      title: "Points",
+      content: "You win points every time you complete a meal—\
+try to get the most of your classmates!",
+      trigger: "hover"
+    })
 
   # Stupid tooltip test on CAS login button on splash page
-  $("#cas").tooltip({
+  $("[rel='tooltip']").tooltip({
     placement: "right",
     title: "CAS login"
   })
