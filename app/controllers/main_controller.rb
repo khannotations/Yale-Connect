@@ -24,7 +24,7 @@ class MainController < ApplicationController
       end
       @user.fbtoken = current_facebook_user.client.access_token
       if !@user.save
-        flash[:error] = "Error with Facebook. Please contact the webmaster."
+        flash[:error] = "Please sign into your own Facebook account first!"
         redirect_to "/welcome" 
         return
       end 
