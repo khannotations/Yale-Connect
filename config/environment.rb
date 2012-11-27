@@ -1,16 +1,17 @@
 # Load the rails application
 require File.expand_path('../application', __FILE__)
 
-ENV["fbsecret"] = "71d91a73b5e2e58dcf17934a6dcf787a"
-ENV["fbkey"] = "390508047659869"
+credentials = YAML.load_file("#{Rails.root}/config/credentials.yml")
 
-ENV['MONGOID_HOST'] = "ds033097.mongolab.com"
-ENV['MONGOID_PORT'] = "33097"
-ENV['MONGOID_USERNAME'] = "admin"
-ENV['MONGOID_PASSWORD'] = "admin"
-ENV['MONGOID_DATABASE'] = "campus"
-
-ENV['CAS_PASS'] = "910qRuP0448"
+ENV['CAS_NETID'] = credentials['netid']
+ENV['CAS_PASS'] = credentials['cas_pass']
+ENV['MONGOID_HOST'] = credentials['mongo_host']
+ENV['MONGOID_PORT'] = credentials['mongo_port']
+ENV['MONGOID_USERNAME'] = credentials['mongo_id']
+ENV['MONGOID_PASSWORD'] = credentials['mongo_pass']
+ENV['MONGOID_DATABASE'] = credentials['mongo_db']
+ENV["fbsecret"] = credentials['fb_secret']
+ENV["fbkey"] = credentials['fb_key']
 
 # Initialize the rails application
 Connect::Application.initialize!

@@ -11,18 +11,14 @@ class Meal
   belongs_to :user_2, class_name: "User", foreign_key: "user_2_id"
 
   attr_accessible :image, :user_1, :user_2, :done, :date
-
   validates_presence_of :user_1, :user_2
 
   # mount_uploader :image, MealTagUploader
-
   # attr_accessible :done, :date, :feedback
 
   def get_other(user)
-    
     return self.user_2 if user == self.user_1
     return self.user_1 if user == self.user_2
-    
     return nil
   end
 
